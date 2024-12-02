@@ -15,16 +15,26 @@ $(document).ready(function(){
     
     return question;
   }
-  
-  //inject math equation
-  currentQuestion = questionGenerator();
-  $('#equation').text(currentQuestion.equation);
+
+
+  var renderNewQuestion = function(){
+    currentQuestion = questionGenerator();
+      //inject math equation
+    $('#equation').text(currentQuestion.equation);
+  }
+
   
   var checkAnswer = function (userInput, answer) {
-    console.log(userInput === answer);
+    if(userInput === answer){
+      renderNewQuestion();
+      $('#user-input').val('');
+    }
   }
+
   //event listener for correct input
   $('#user-input').on('keyup', function () {
     checkAnswer(Number($(this).val()), currentQuestion.answer);
   });
+
+  renderNewQuestion();
 });
