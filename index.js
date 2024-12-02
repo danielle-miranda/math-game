@@ -15,7 +15,16 @@ $(document).ready(function(){
     
     return question;
   }
-
+  
+  //inject math equation
   currentQuestion = questionGenerator();
   $('#equation').text(currentQuestion.equation);
+  
+  var checkAnswer = function (userInput, answer) {
+    console.log(userInput === answer);
+  }
+  //event listener for correct input
+  $('#user-input').on('keyup', function () {
+    checkAnswer(Number($(this).val()), currentQuestion.answer);
+  });
 });
