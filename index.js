@@ -1,6 +1,7 @@
 // index.js
 $(document).ready(function(){
-
+  var currentQuestion;
+  var timeLeft = 10;
   var randomNumberGenerator = function (size) {
     return Math.ceil(Math.random() * size);
   }
@@ -16,6 +17,10 @@ $(document).ready(function(){
     return question;
   }
 
+  var updateTimeLeft = function (amount) {
+    timeLeft += amount;
+    $('#time-left').text(timeLeft);
+  }
 
   var renderNewQuestion = function(){
     currentQuestion = questionGenerator();
@@ -28,6 +33,7 @@ $(document).ready(function(){
     if(userInput === answer){
       renderNewQuestion();
       $('#user-input').val('');
+      updateTimeLeft(+1);
     }
   }
 
@@ -35,6 +41,18 @@ $(document).ready(function(){
   $('#user-input').on('keyup', function () {
     checkAnswer(Number($(this).val()), currentQuestion.answer);
   });
+
+  //timer
+
+  var interval = setInterval(function() {
+    updateTimeLeft (-1);
+    $('#time-left').text(timeLeft);
+    if (timeLeft === 0){
+      clearInterval(interval);
+    }
+  }, 1000);
+
+
 
   renderNewQuestion();
 });
