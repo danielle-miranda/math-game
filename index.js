@@ -1,11 +1,44 @@
 // index.js
 $(document).ready(function(){
   var currentQuestion;
+  var interval;
   var timeLeft = 10;
+  var score = 0;
+  
+//timer
+  var updateTimeLeft = function (amount) {
+    timeLeft += amount;
+    $('#time-left').text(timeLeft);
+  }
+
+//Round Score
+  var updateScore = function (amount){
+    score += amount;
+    $('#score').text(score);
+  };
+
+//New Rounds timer + Scores
+  var startGame = function() {
+    if (!interval) {
+      if (timeLeft === 0){
+        updateTimeLeft (10);
+        updateScore(-score);
+      }
+      interval = setInterval(function (){
+        updateTimeLeft(-1);
+        if (timeLeft === 0) {
+          clearInterval (interval);
+          interval = undefined;
+        }
+      }, 1000);
+    }
+  }
+
+//equation generator
   var randomNumberGenerator = function (size) {
     return Math.ceil(Math.random() * size);
   }
-
+  
   var questionGenerator = function () {
     var question = {};
     var num1 = randomNumberGenerator(10);
@@ -17,10 +50,7 @@ $(document).ready(function(){
     return question;
   }
 
-  var updateTimeLeft = function (amount) {
-    timeLeft += amount;
-    $('#time-left').text(timeLeft);
-  }
+  
 
   var renderNewQuestion = function(){
     currentQuestion = questionGenerator();
@@ -34,25 +64,15 @@ $(document).ready(function(){
       renderNewQuestion();
       $('#user-input').val('');
       updateTimeLeft(+1);
+      updateScore(+1);
     }
   }
 
-  //event listener for correct input
+  //event listener for input
   $('#user-input').on('keyup', function () {
+    startGame();
     checkAnswer(Number($(this).val()), currentQuestion.answer);
   });
-
-  //timer
-
-  var interval = setInterval(function() {
-    updateTimeLeft (-1);
-    $('#time-left').text(timeLeft);
-    if (timeLeft === 0){
-      clearInterval(interval);
-    }
-  }, 1000);
-
-
 
   renderNewQuestion();
 });
