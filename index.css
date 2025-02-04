@@ -1,4 +1,25 @@
 /*index.css*/
-h2 {
-  color: blue;
+body {
+  background-color: rgb(197, 190, 244);
+}
+
+.title {
+  color: rgb(224, 134, 246);
+  font-size: 80px;
+  
+}
+
+.game {
+  margin-top: 50px;
+}
+
+.body {
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
+
+#time-left{
+  color: red;
+  font-size: 50px;
+  font-weight: bolder;
 }
